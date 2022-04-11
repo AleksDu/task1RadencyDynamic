@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Hometask1</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
+      integrity="sha512-ISS7cAi1PEhQ8jnbJpJZMd29NlhNj4AWYyLOSp2CE/CsHxTCu+r+t0D2yoJudVrd0/8fTVPUVDzY5Tvli75u/g=="
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <div class="container a-3" id="container">
+      <div class="card text-dark bg-light b-3">
+        <div class="body-card">
+          <h5 class="title-card">Enter a note</h5>
+          <div class="form-group">
+            <textarea
+              id="addNote"
+              class="control-form"
+              aria-label="With textarea"
+              placeholder="Enter your note"
+            ></textarea>
+            <p class="text-card c-3 font-weight-bold">Choose date</p>
+
+            <div>
+              <input type="date" id="date" class="control-form date-input" />
+              <input type="time" class="control-form date-input" id="time" />
+            </div>
+            <p class="text-card c-3 font-weight-bold">Select category</p>
+
+            <select class="form-select" id="category">
+              <option value="1">Choose category</option>
+              <option value="2">Task</option>
+              <option value="3">Idea</option>
+              <option value="4">Random Thought</option>
+            </select>
+          </div>
+          <br />
+          <button id="addBtn" class="btn btn-main">Add</button>
+          <div class="check-form form-toggle c3">
+            <input
+              type="checkbox"
+              class="form-check-input align-middle"
+              id="checkbox"
+              role="switch"
+              style="width: 55px; height: 25px"
+            />
+            <label class="form-check-label" type="checkbox" for="checkbox"
+              >Show archived notes</label
+            >
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div id="notes" class="row container-changeable"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="exampleModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit note</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+              onclick="closeModal()"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <textarea
+                id="editNote"
+                class="control-form"
+                aria-label="With textarea"
+                placeholder="Enter your note"
+              ></textarea>
+              <p class="text-card c-3 font-weight-bold">Choose date</p>
+
+              <div>
+                <input
+                  type="date"
+                  id="editDate"
+                  class="control-form date-input"
+                />
+                <input
+                  type="time"
+                  class="control-form date-input"
+                  id="editTime"
+                />
+              </div>
+              <p class="text-card c-3 font-weight-bold">Select category</p>
+
+              <select class="form-select" id="select-modal">
+                <option value="1">Choose category</option>
+                <option value="2">Task</option>
+                <option value="3">Idea</option>
+                <option value="4">Random Thought</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              onclick="closeModal()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="container a-3">
+      <hr />
+      <div class="card">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">Acctive</th>
+              <th scope="col">Archived</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
