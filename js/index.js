@@ -1,83 +1,77 @@
+import { showNotes, showTable, showArchived } from "./show.js";
+import {
+  deleteNote,
+  openModal,
+  saveNote,
+  closeModal,
+  archiveNote,
+  unArchiveNote,
+} from "./nots.js";
+
 export const data = [
   {
-    id: "1",
-    icon: "./images/handbasket.png",
-    name: "Shopping list",
+    text: "Shopping list",
     category: "Task",
-    created: "April 20, 2021",
-    сontent: "Tomatoes, bread",
+    time: "2021-4-20 | 10:17",
     dates: [],
-    isActive: "true",
+    archived: "true",
   },
   {
-    id: "2",
-    icon: "./images/handbasket.png",
-    name: "The theory of evolution",
+    text: "The theory of evolution",
     category: "Random Thought",
-    created: "April 27, 2021",
-    сontent: "The evolution...",
+    time: "2021-4-27 | 10:15",
     dates: ["3/05/2021, 5/05/2021"],
-    isActive: "true",
+    archived: "true",
   },
   {
-    id: "3",
-    icon: "./images/handbasket.png",
-    name: "New Feature",
+    text: "New Feature",
     category: "Idea",
-    created: "May 05, 2021",
-    сontent: "Implement new...",
+    time: "2021-5-5 | 10:30",
     dates: [],
-    isActive: "true",
+    archived: "true",
   },
   {
-    id: "4",
-    icon: "./images/handbasket.png",
-    name: "William Gaddis",
+    text: "William Gaddis",
     category: "Quote",
-    created: "May 07, 2022",
-    сontent: "Power doesn't co...",
+    time: "2022-5-7 | 11:00",
     dates: [],
-    isActive: "true",
+    archived: "true",
   },
   {
-    id: "5",
-    icon: "./images/handbasket.png",
-    name: "Books",
+    text: "Books",
     category: "Task",
-    created: "May 15, 2021",
-    сontent: "The Lean Startup",
+    time: "2021-5-15 | 10:35",
     dates: [],
-    isActive: "true",
+    archived: "true",
   },
   {
-    id: "6",
-    icon: "./images/handbasket.png",
-    name: "War",
+    text: "War",
     category: "Evil",
-    created: "March 24, 2022",
-    сontent: "No one can destroy us!",
+    time: "2022-5-1 | 13:12",
     dates: [],
-    isActive: "false",
+    archived: "false",
   },
   {
-    id: "7",
-    icon: "./images/handbasket.png",
-    name: "God",
+    text: "God",
     category: "Strong",
-    created: "01 01, 0001",
-    сontent: "in all His will...",
+    time: "01-01-01 | 00:00",
     dates: [],
-    isActive: "false",
+    archived: "true",
   },
 ];
+
+showNotes();
+console.log(showNotes());
+
+showTable();
 
 const addButton = document.getElementById("addBtn");
 addButton.addEventListener("click", function () {
   let notesObj;
   const addNotes = document.getElementById("addNote");
-  const addCategory = document.getElementById("category");
+  const category = document.getElementById("category");
   const addDate = document.getElementById("date");
-  const adddTime = document.getElementById("time");
+  const addTime = document.getElementById("time");
   let noteString = data;
   if (noteString === null) {
     notesObj = [];
@@ -88,24 +82,25 @@ addButton.addEventListener("click", function () {
   let dataTime = `${now.getFullYear}- ${now.getMonth}+1 ${now.getDate} | ${now.getHours}:${now.getMinutes}:${now.getSeconds}`;
 
   let meeting;
-  if (addDate.value === "" && adddTime.value === "") {
+  if (addDate.value === "" && addTime.value === "") {
     meeting = "";
-  } else if (addDate.value === "" && adddTime.value === "") {
+  } else if (addDate.value === "" && addTime.value === "") {
     alert("Please enter date and time");
+    return;
   } else {
-    meeting = addDate.value + " " + adddTime.value;
+    meeting = addDate.value + " " + addTime.value;
   }
 
   if (category.value === "") {
     alert("Please enter category");
   }
 
-  // push ito data
+  // push into data
   let dataObj = {
     text: addNotes.value,
     category: category.value,
     time: dataTime,
-    dates: [meeting],
+    dates: meeting,
   };
   try {
     data.push(dataObj);
@@ -113,8 +108,11 @@ addButton.addEventListener("click", function () {
     alert(error);
   }
 
-  addNote.value = "";
+  addNotes.value = "";
   category.value = "";
+
+  showNotes();
+  showTable();
 });
 
 const toggleArchive = document.querySelector(".switch");
@@ -122,12 +120,15 @@ toggleArchive.addEventListener("click", function (e) {
   e.target.classList.toggle("show-arch");
   const mustShowArchived = e.target.classList.contains("show-arch");
   if (mustShowArchived) {
+    showArchived();
+  } else {
+    showNotes();
   }
 });
 
 window.deleteNote = deleteNote;
 window.openModal = openModal;
 window.closeModal = closeModal;
-window.saveChanges = saveChanges;
+window.saveNote = saveNote;
 window.archiveNote = archiveNote;
-window.unarchiveNote = unarchiveNote;
+window.unArchiveNote = unArchiveNote;

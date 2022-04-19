@@ -2,16 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Hometask1</title>
+    <title>To DO List</title>
+
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
-      integrity="sha512-ISS7cAi1PEhQ8jnbJpJZMd29NlhNj4AWYyLOSp2CE/CsHxTCu+r+t0D2yoJudVrd0/8fTVPUVDzY5Tvli75u/g=="
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
@@ -43,7 +44,7 @@
           </div>
           <br />
           <button id="addBtn" class="btn btn-main">Add</button>
-          <div class="check-form form-toggle c3">
+          <div class="check-form form-toggle c-3">
             <input
               type="checkbox"
               class="form-check-input align-middle"
@@ -51,7 +52,7 @@
               role="switch"
               style="width: 55px; height: 25px"
             />
-            <label class="form-check-label" type="checkbox" for="checkbox"
+            <label class="form-check-label align-middle d-3" for="checkbox"
               >Show archived notes</label
             >
           </div>
@@ -129,7 +130,7 @@
           <thead>
             <tr>
               <th scope="col">Category</th>
-              <th scope="col">Acctive</th>
+              <th scope="col">Active</th>
               <th scope="col">Archived</th>
             </tr>
           </thead>
@@ -139,10 +140,16 @@
     </div>
 
     <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+      integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
       crossorigin="anonymous"
     ></script>
-    <script src="jsFiles/index.js" type="module"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
+      integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="js/index.js" type="module"></script>
   </body>
 </html>
