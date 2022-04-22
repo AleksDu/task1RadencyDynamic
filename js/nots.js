@@ -1,5 +1,5 @@
 import { showNotes, showTable, showArchived } from "./show.js";
-import { data } from "index.js";
+import { data } from "./index.js";
 
 export function deleteNote(index) {
   data.splice(index, 1);
@@ -8,21 +8,25 @@ export function deleteNote(index) {
 }
 
 export function openModal(id) {
-  const modal = document.getElementById("modal");
+  const modal = document.getElementById("exampleModal");
   const text = document.getElementById("editNote");
   const category = document.getElementById("select-modal");
   const date = document.getElementById("editDate");
   const time = document.getElementById("editTime");
 
-  const saveBtn = `<button id='${id}' class="btn btn-main" onclick="saveNote(this.id) type="button" id="saveChangeBtn">Save</button>`;
-  document.querySelector(".modal-footer").innerHTML = saveBtn;
+  const saveBtn = `<button id='${id}' class="btn btn-main" onclick="saveNote(this.id)" type="button" id="saveChangeBtn">Save</button>`;
+  document
+    .querySelector(".modal-footer")
+    .insertAdjacentHTML("beforeend", saveBtn);
+
   modal.style.display = "block";
   text.value = data[id].text;
   category.value = data[id].category;
-  if (data[id].dates) {
-    date.value = data[id].dates;
+  if (!data[id].dates) {
+    return;
   }
-  time.value = data[id].time;
+  date.value = data[id].dates.slice(0, 10);
+  time.value = data[id].dates.slice(-6);
 }
 
 export function saveNote(id) {
@@ -38,16 +42,17 @@ export function saveNote(id) {
   data[id].category = category.value;
 
   let meeting;
-  if (date.value === "" && time.value === "") {
-    meeting = "";
-  } else if (date.value === "" || time.value === "") {
+  if (date.value.length === 0 && time.value.length === 0) {
+    meeting = null;
+  } else if (date.value.length === 0 || time.value.length === 0) {
     alert("Please enter date and time");
     return;
   } else {
-    meeting = date.value + " " + time.value;
+    meeting = `${date.value} | ${time.value}`;
   }
   data[id].dates = meeting;
 
+  closeModal();
   showNotes();
   showTable();
 }
@@ -55,12 +60,12 @@ export function saveNote(id) {
 export function closeModal() {
   const date = document.getElementById("editDate");
   const time = document.getElementById("editTime");
-  const modal = document.getElementById("modal");
+  const modal = document.getElementById("exampleModal");
   const text = document.getElementById("editNote");
 
   document.querySelector(
     ".modal-footer"
-  ).innerHTML = `<button class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()" type="button">Close</button>`;
+  ).innerHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()" type="button">Close</button>`;
 
   modal.style.display = "none";
   text.value = "";
@@ -70,7 +75,7 @@ export function closeModal() {
 
 export function archiveNote(id) {
   try {
-    if (data[id].archived === true) {
+    if ((data[id].archived = true)) {
     }
   } catch (error) {
     alert(error);
@@ -81,11 +86,11 @@ export function archiveNote(id) {
 
 export function unArchiveNote(id) {
   try {
-    if (data[id].archived === false) {
+    if ((data[id].archived = false)) {
     }
   } catch (error) {
     alert(error);
   }
-  showTable();
   showArchived();
+  showTable();
 }

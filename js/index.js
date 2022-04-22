@@ -21,7 +21,7 @@ export const data = [
     category: "Random Thought",
     time: "2021-4-27 | 10:15",
     dates: ["3/05/2021, 5/05/2021"],
-    archived: "true",
+    archived: "false",
   },
   {
     text: "New Feature",
@@ -61,8 +61,6 @@ export const data = [
 ];
 
 showNotes();
-console.log(showNotes());
-
 showTable();
 
 const addButton = document.getElementById("addBtn");
@@ -78,21 +76,26 @@ addButton.addEventListener("click", function () {
   } else {
     notesObj = noteString;
   }
+
   let now = new Date();
-  let dataTime = `${now.getFullYear}- ${now.getMonth}+1 ${now.getDate} | ${now.getHours}:${now.getMinutes}:${now.getSeconds}`;
+  let dataTime = `${now.getFullYear()}- ${
+    now.getMonth() + 1
+  }- ${now.getDate()} | ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 
   let meeting;
-  if (addDate.value === "" && addTime.value === "") {
-    meeting = "";
-  } else if (addDate.value === "" && addTime.value === "") {
+  if (addDate.value.length === 0 && addTime.value.length === 0) {
+    meeting = null;
+  } else if (addDate.value.length === 0 || addTime.value.length === 0) {
     alert("Please enter date and time");
     return;
   } else {
-    meeting = addDate.value + " " + addTime.value;
+    // meeting = addDate.value + " " + addTime.value;
+    meeting = `${addDate.value} | ${addTime.value}`;
   }
 
-  if (category.value === "") {
+  if (category.value === "null") {
     alert("Please enter category");
+    return;
   }
 
   // push into data
@@ -109,21 +112,17 @@ addButton.addEventListener("click", function () {
   }
 
   addNotes.value = "";
-  category.value = "";
+  category.value = "null";
 
   showNotes();
   showTable();
 });
 
-const toggleArchive = document.querySelector(".switch");
+const toggleArchive = document.querySelector("#checkbox");
 toggleArchive.addEventListener("click", function (e) {
-  e.target.classList.toggle("show-arch");
-  const mustShowArchived = e.target.classList.contains("show-arch");
-  if (mustShowArchived) {
-    showArchived();
-  } else {
-    showNotes();
-  }
+  e.target.classList.toggle("show-archived");
+  const mustShowArchived = [...e.target.classList].includes("show-archived");
+  mustShowArchived ? showArchived() : showNotes();
 });
 
 window.deleteNote = deleteNote;

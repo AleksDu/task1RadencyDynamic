@@ -8,11 +8,13 @@ export function showNotes() {
   } else {
     dataObj = noteString;
   }
+
   let html = "";
   dataObj.forEach(function (note, index) {
-    const dateType = /(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}/;
-    const isConcur = note.dates.match(dateType);
-    const foundDate = isConcur.map((match) => {
+    const dateType =
+      /(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}/g;
+    const isMatch = [...note.text.matchAll(dateType)];
+    const foundDate = isMatch.map((match) => {
       return match[0];
     });
     let dates = "";
@@ -23,10 +25,10 @@ export function showNotes() {
     }
     if (!note.archived) {
       html += `
-            <div class="card d-4 a-2 bg-dark text-white thatsMyNote" style='width: 19rem;'>
+            <div class="card d-4 a-2 bg-success text-white thatsMyNote" style='width: 19rem;'>
              <div class="card-body">
              <h6>${note.time}</h6>
-             <p class="card-text">${note
+             <p class="card-text">${note.text
                .replace(/</g, "&lt;")
                .replace(/</g, "&gt")}</p>
              ${
@@ -53,10 +55,10 @@ export function showNotes() {
 
   let noteEl = document.getElementById("notes");
   const allActive = data.filter((note) => !note.archived);
-  if (allActive.length === 0) {
-    noteEl.innerHTML = `<h1 class="text-center text-white">No notes to show</h1>`;
-  } else {
+  if (allActive.length != 0) {
     noteEl.innerHTML = html;
+  } else {
+    noteEl.innerHTML = `<h1 class="text-center text-white">No Notes</h1>`;
   }
 }
 
@@ -70,18 +72,6 @@ export function showArchived() {
   }
   let html = "";
   dataObj.forEach(function (note, index) {
-    const dateType = /(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}/;
-    const isConcur = note.dates.match(dateType);
-    const foundDate = isConcur.map((match) => {
-      return match[0];
-    });
-
-    let dates = "";
-    if (foundDate.length > 0) {
-      foundDate.forEach((date) => {
-        dates += date + " | ";
-      });
-    }
     if (note.archived) {
       html += `
             <div class="card d-4 a-2 bg-dark text-white thatsMyNote" style='width: 19rem;'>
@@ -109,22 +99,24 @@ export function showArchived() {
 
   let noteEl = document.getElementById("notes");
   const allArchived = data.filter((note) => note.archived);
-  if (allArchived.length === 0) {
-    noteEl.innerHTML = `<h1 class="text-center text-white">No notes to show</h1>`;
-  } else {
+  if (allArchived.length != 0) {
     noteEl.innerHTML = html;
+  } else {
+    noteEl.innerHTML = `<h1 class="text-center text-white">No Notes</h1>`;
   }
 }
 
-function showTable() {
-  const data = getTableData();
+export function showTable() {
+  const storage = getTableData();
+
   let html = "";
-  data.forEach((category) => {
-    const keys = Object.keys(category);
+
+  storage.forEach((category) => {
+    const key = Object.keys(category);
     html += `<tr>
-        <th scope="row">${keys}</th>
-        <td>${category[keys].active}</td>
-        <td>${category[keys].archived}</td>
+        <th scope="row">${key}</th>
+        <td>${category[key].active}</td>
+        <td>${category[key].archived}</td>
         </tr>`;
   });
   const tableBody = document.querySelector("#table-body");
@@ -132,26 +124,20 @@ function showTable() {
 }
 
 function getTableData() {
-  let dataObj;
-  let noteString = data;
-  if (noteString === null) {
-    dataObj = [];
-  } else {
-    dataObj = noteString;
-  }
-  let tableData = {};
-  dataObj.forEach((note) => {
-    if (!tableData[note.category]) {
-      tableData[note.category] = {
-        active: 0,
-        archived: 0,
-      };
-    }
-    if (!note.archived) {
-      tableData[note.category].active += 1;
-    } else {
-      tableData[note.category].archived += 1;
-    }
+  const allCategory = data.map((note) => note.category);
+  const uniqueCategory = [...new Set(allCategory)];
+  const filteredCategory = uniqueCategory.map((uniqueCategory) => {
+    const obj = {
+      [uniqueCategory]: {
+        active: data.filter(
+          (note) => note.category === uniqueCategory && note.archived === false
+        ).length,
+        archived: data.filter(
+          (note) => note.category === uniqueCategory && note.archived === true
+        ).length,
+      },
+    };
+    return obj;
   });
-  return tableData;
+  return filteredCategory;
 }
